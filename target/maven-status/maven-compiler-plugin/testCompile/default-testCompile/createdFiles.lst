@@ -1,0 +1,4 @@
+com\jumia\utils\JsonAssertionUtils.class
+com\jumia\customer\api\CustomerApi.class
+com\jumia\utils\RequestUtils.class
+com\jumia\customer\getCustomerListTest.class

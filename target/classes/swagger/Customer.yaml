@@ -1,0 +1,125 @@
+swagger: '2.0'
+
+info:
+  version: '1.0.0'
+  title: 'CustomerEntity'
+  description: 'CustomerEntity'
+
+schemes:
+  - https
+
+parameters:
+  pageNo:
+    name: pageNo
+    in: query
+    type: integer
+    default: 0
+  pageSize:
+    name: pageSize
+    in: query
+    type: integer
+    default: 10
+
+paths:
+
+  /customer:
+    get:
+      tags:
+        - customer
+      summary: page customers
+      operationId: getCustomers
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/pageNo'
+        - $ref: '#/parameters/pageSize'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/CustomerPageDTO'
+        400:
+          description: Bad request format
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        401:
+          description: Bad token
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+definitions:
+  CustomerDTO:
+    required:
+      - name
+      - phone
+      - status
+      - countryName
+    properties:
+      name:
+        type: string
+      phone:
+        type: string
+      status:
+        type: string
+      countryName:
+        type: string
+
+  CustomerPageDTO:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PageDTO'
+      - properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerDTO'
+
+  SuccessResponse:
+    type: object
+    properties:
+      success:
+        enum:
+          - true
+      message:
+        type: string
+      details:
+        type: string
+
+  ErrorResponse:
+    type: object
+    properties:
+      success:
+        enum:
+          - false
+      message:
+        type: string
+      code:
+        type: string
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+
+  PageDTO:
+    type: object
+    properties:
+      pageNo:
+        type: integer
+        format: int32
+      pageSize:
+        type: integer
+        format: int32
+      totalPages:
+        type: integer
+        format: int32
+      totalElements:
+        type: integer
+        format: int32

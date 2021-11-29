@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  jumia-backend:
+    image: jumia-backend
+    ports:
+      - "8092:8091"
+    networks:
+      - jumia-network
+    volumes:
+      - ./db/sample.db:/sample.db
+
+networks:
+  jumia-network:
